@@ -3,10 +3,11 @@ package com.supermarket;
 public class Customer {
 
 
-    int ID;
-    String name;
-    String phoneNumber;
+    private String name;
+    private String phoneNumber;
 
-
-
+    public Customer(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
 }
