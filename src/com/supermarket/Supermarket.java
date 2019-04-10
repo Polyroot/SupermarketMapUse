@@ -1,18 +1,15 @@
 package com.supermarket;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class Supermarket {
 
 
-    HashMap<Customer, Order> map = new HashMap<Customer,Order>();
-
+    HashMap<Paycheck, Order> map = new HashMap<Paycheck,Order>();
 
     public static void main(String[] args) {
         Supermarket supermarket = new Supermarket();
@@ -25,7 +22,7 @@ public class Supermarket {
 
             ArrayList<String[]> listChecks = ParserLogFileChecks.getChecks("log.txt").get(i);
 
-            String checkNumber = listChecks.get(0)[0];
+            String paycheckNumber = listChecks.get(0)[0];
             String customerName = listChecks.get(1)[0];
             String phoneNumber = listChecks.get(1)[1];
             String name = listChecks.get(2)[0];
@@ -37,18 +34,16 @@ public class Supermarket {
             String locateDiscr = listChecks.get(4)[2];
             LocalDate data = LocalDate.parse(listChecks.get(5)[0], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-
-            map.put(new Customer(customerName, phoneNumber),
-                    new Order(checkNumber, name, product, amount, coast, locate, coordinate, locateDiscr, data));
+            map.put(new Paycheck(paycheckNumber),
+                    new Order(name,
+                            new Product(product, amount, coast),
+                            new Location(locate, coordinate, locateDiscr),
+                            new Customer(customerName,phoneNumber),
+                            data));
         }
 
         for (Map.Entry set : map.entrySet()){
             System.out.println(set);
         }
-
-
     }
-
-
-
 }
