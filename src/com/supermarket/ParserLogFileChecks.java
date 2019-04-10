@@ -4,19 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class ParserChecks {
+public class ParserLogFileChecks {
 
-    public static void printChecks(String fileLog) {
-        for (ArrayList<String[]> a : getChecks("log.txt")) {
-            for (String[] m : a) {
-                for (String s : m) {
-                    System.out.print(s + "; ");
-                }
-                System.out.println();
-            }
-            System.out.println("-----");
-        }
-    }
+
 
     private static LinkedList<String> getListDataLogFile(String fileLog) {
 
@@ -45,7 +35,6 @@ public class ParserChecks {
         return checkCount;
     }
 
-
     private static ArrayList<ArrayList<String[]>> separatorListDataLogFile(LinkedList<String> listDataLogFile, int checkCount) {
 
         ArrayList<ArrayList<String[]>> listChecks = new ArrayList<>();
@@ -66,5 +55,17 @@ public class ParserChecks {
 
     public static ArrayList<ArrayList<String[]>> getChecks(String fileLog){
         return separatorListDataLogFile(getListDataLogFile(fileLog), getCheckCount(getListDataLogFile(fileLog)));
+    }
+
+    public static void printChecks(String fileLog) {
+        for (ArrayList<String[]> a : getChecks("log.txt")) {
+            for (String[] m : a) {
+                for (String s : m) {
+                    System.out.print(s + "; ");
+                }
+                System.out.println();
+            }
+            System.out.println("-----");
+        }
     }
 }
