@@ -4,9 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class ParserLogFileChecks {
-
-
+public class ParserLogFilePaychecks {
 
     private static LinkedList<String> getListDataLogFile(String fileLog) {
 
@@ -25,40 +23,40 @@ public class ParserLogFileChecks {
     }
 
 
-    private static int getCheckCount(LinkedList<String> listDataLogFile) {
-        int checkCount = 0;
+    private static int getPaycheckCount(LinkedList<String> listDataLogFile) {
+        int paycheckCount = 0;
         for (String s : listDataLogFile) {
             if (s.equals("-----")) {
-                checkCount++;
+                paycheckCount++;
             }
         }
-        return checkCount;
+        return paycheckCount;
     }
 
-    private static ArrayList<ArrayList<String[]>> separatorListDataLogFile(LinkedList<String> listDataLogFile, int checkCount) {
+    private static ArrayList<ArrayList<String[]>> separatorListDataLogFile(LinkedList<String> listDataLogFile, int paycheckCount) {
 
-        ArrayList<ArrayList<String[]>> listChecks = new ArrayList<>();
+        ArrayList<ArrayList<String[]>> listPaychecks = new ArrayList<>();
         int index = 0;
-        for (int i = 0; i < checkCount; i++) {
+        for (int i = 0; i < paycheckCount; i++) {
 
-            listChecks.add(new ArrayList<>());
+            listPaychecks.add(new ArrayList<>());
 
             for (int k = index; k < listDataLogFile.size(); k++) {
                 if (listDataLogFile.get(k).equals("-----")) break;
                 String[] s = listDataLogFile.get(k).split("; ");
-                listChecks.get(i).add(s);
+                listPaychecks.get(i).add(s);
             }
-            index = index + listDataLogFile.size() / checkCount;
+            index = index + listDataLogFile.size() / paycheckCount;
         }
-        return listChecks;
+        return listPaychecks;
     }
 
-    public static ArrayList<ArrayList<String[]>> getChecks(String fileLog){
-        return separatorListDataLogFile(getListDataLogFile(fileLog), getCheckCount(getListDataLogFile(fileLog)));
+    public static ArrayList<ArrayList<String[]>> getPaychecks(String fileLog){
+        return separatorListDataLogFile(getListDataLogFile(fileLog), getPaycheckCount(getListDataLogFile(fileLog)));
     }
 
-    public static void printChecks(String fileLog) {
-        for (ArrayList<String[]> a : getChecks("log.txt")) {
+    public static void printPaychecks(String fileLog) {
+        for (ArrayList<String[]> a : getPaychecks("log.txt")) {
             for (String[] m : a) {
                 for (String s : m) {
                     System.out.print(s + "; ");
