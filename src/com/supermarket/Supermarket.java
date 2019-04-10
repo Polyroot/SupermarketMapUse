@@ -18,9 +18,9 @@ public class Supermarket {
 
     public void go(){
 
-        for (int i = 0; i<ParserLogFileChecks.getChecks("log.txt").size(); i++){
+        for (int i = 0; i<ParserLogFilePaychecks.getPaychecks("log.txt").size(); i++){
 
-            ArrayList<String[]> listChecks = ParserLogFileChecks.getChecks("log.txt").get(i);
+            ArrayList<String[]> listChecks = ParserLogFilePaychecks.getPaychecks("log.txt").get(i);
 
             String paycheckNumber = listChecks.get(0)[0];
             String customerName = listChecks.get(1)[0];
