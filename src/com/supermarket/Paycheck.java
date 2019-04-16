@@ -1,7 +1,5 @@
 package com.supermarket;
 
-import java.util.Objects;
-
 public class Paycheck {
     private String paycheckNumber;
 
@@ -25,6 +23,7 @@ public class Paycheck {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (!(obj instanceof Paycheck)) return false;
+        return paycheckNumber.equals(((Paycheck) obj).getPaycheckNumber());
     }
 }

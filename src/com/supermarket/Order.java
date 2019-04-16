@@ -9,15 +9,14 @@ public class Order {
     private Product product;
     private Location location;
     private Customer customer;
-    private LocalDate data;
+    private LocalDate date;
 
-
-    public Order(String name, Product product, Location location, Customer customer, LocalDate data) {
+    public Order(String name, Product product, Location location, Customer customer, LocalDate date) {
         this.name = name;
         this.product = product;
         this.location = location;
         this.customer = customer;
-        this.data = data;
+        this.date = date;
     }
 
     public String getName() {
@@ -37,12 +36,14 @@ public class Order {
     }
 
     public LocalDate getData() {
-        return data;
+        return date;
     }
 
     @Override
     public String toString() {
         return getCustomer().getCustomerName();
+
+
     }
 
 

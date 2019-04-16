@@ -51,7 +51,7 @@ public class ParserLogFilePaychecks {
         return listPaychecks;
     }
 
-    public static ArrayList<ArrayList<String[]>> getPaychecks(String fileLog){
+    static ArrayList<ArrayList<String[]>> getPaychecks(String fileLog){
         return separatorListDataLogFile(getListDataLogFile(fileLog), getPaycheckCount(getListDataLogFile(fileLog)));
     }
 

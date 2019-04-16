@@ -9,18 +9,13 @@ import java.util.Map;
 public class Supermarket {
 
 
-    HashMap<Paycheck, Order> map = new HashMap<Paycheck,Order>();
+    static HashMap<Paycheck, Order> map = new HashMap<>();
 
-    public static void main(String[] args) {
-        Supermarket supermarket = new Supermarket();
-        supermarket.go();
-    }
+    public static void initialization(String fileLog){
 
-    public void go(){
+        for (int i = 0; i<ParserLogFilePaychecks.getPaychecks(fileLog).size(); i++){
 
-        for (int i = 0; i<ParserLogFilePaychecks.getPaychecks("log.txt").size(); i++){
-
-            ArrayList<String[]> listChecks = ParserLogFilePaychecks.getPaychecks("log.txt").get(i);
+            ArrayList<String[]> listChecks = ParserLogFilePaychecks.getPaychecks(fileLog).get(i);
 
             String paycheckNumber = listChecks.get(0)[0];
             String customerName = listChecks.get(1)[0];
@@ -31,19 +26,16 @@ public class Supermarket {
             int coast = Integer.parseInt(listChecks.get(3)[2].replaceAll("\\D+", ""));
             String locate = listChecks.get(4)[0];
             String coordinate = listChecks.get(4)[1];
-            String locateDiscr = listChecks.get(4)[2];
-            LocalDate data = LocalDate.parse(listChecks.get(5)[0], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            String locateDesc = listChecks.get(4)[2];
+            LocalDate date = LocalDate.parse(listChecks.get(5)[0], DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
             map.put(new Paycheck(paycheckNumber),
                     new Order(name,
                             new Product(product, amount, coast),
-                            new Location(locate, coordinate, locateDiscr),
-                            new Customer(customerName,phoneNumber),
-                            data));
-        }
+                            new Location(locate, coordinate, locateDesc),
+                            new Customer(customerName, phoneNumber),
+                            date));
 
-        for (Map.Entry set : map.entrySet()){
-            System.out.println(set);
         }
     }
 }
