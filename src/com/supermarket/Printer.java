@@ -12,11 +12,9 @@ public class Printer {
     public static void main(String[] args) {
 
         Printer printer = new Printer();
-//        System.out.println(printer.getColumns());
         Supermarket.initialization("log.txt");
-        printer.getMapSortedList(printer.getSortedList(), printer.getColumns());
+        printer.printMap();
 
-//        System.out.println(printer.getColumns());
     }
 
 
@@ -158,8 +156,20 @@ public class Printer {
     }
 
     public void printMap(){
+        Printer printer = new Printer();
+        Map<String, ArrayList<String>> map = getMapSortedList(printer.getSortedList(), printer.getColumns());
 
+        for (Map.Entry<String, ArrayList<String>> mapSortedList : map.entrySet()){
+            System.out.print(" | "+mapSortedList.getKey()+" | ");
+        }
 
+        for (int i=0; i<getSortedList().size(); i++) {
+            System.out.println();
+            for (Map.Entry<String, ArrayList<String>> mapSortedList : map.entrySet()) {
+
+                System.out.print(" | " + mapSortedList.getValue().get(i) + " | ");
+
+            }
+        }
     }
-
 }
