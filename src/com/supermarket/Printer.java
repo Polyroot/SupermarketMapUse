@@ -57,18 +57,60 @@ public class Printer {
 
     }
 
-    class CustomerCompare implements Comparator<Order>{
+    public String getColumnCompare(ArrayList<String> columns){
 
-        @Override
-        public int compare(Order o1, Order o2) {
-            return o1.getCustomer().getCustomerName().compareTo(o2.getCustomer().getCustomerName());
+        Map<Integer,String> tableColumnsForCompare = new HashMap<>();
+
+        for (int x=0; x<columns.size(); x++){
+            tableColumnsForCompare.put(x, columns.get(x));
         }
+
+        for (Map.Entry<Integer, String> mapColumnsForCompare : tableColumnsForCompare.entrySet()){
+            System.out.println(mapColumnsForCompare);
+        }
+
+        System.out.println("Выберите номер столбца для сортировки ");
+        Scanner in = new Scanner(System.in);
+        String scan = in.nextLine();
+        System.out.println(scan);
+        int s=Integer.parseInt(scan);
+
+        return tableColumnsForCompare.get(s);
     }
 
-    public ArrayList<Order> getSortedList(){
-        CustomerCompare customerCompare = new CustomerCompare();
+    public Comparator<Order> getObjectCompare(String columnCompare){
+
+        if ( columnCompare.equals("customerName")){
+            class CustomerCompare implements Comparator<Order>{
+
+                @Override
+                public int compare(Order o1, Order o2) {
+                    return o1.getCustomer().getCustomerName().compareTo(o2.getCustomer().getCustomerName());
+                }
+            }
+            return new CustomerCompare();
+        }
+
+        if (columnCompare.equals("coast")){
+            class CoastCompare implements Comparator<Order>{
+
+                @Override
+                public int compare(Order o1, Order o2) {
+                    return o1.getProduct().getCoast() - o2.getProduct().getCoast();
+                }
+            }
+            return new CoastCompare();
+        }
+
+        return null;
+    }
+
+
+
+    public ArrayList<Order> getSortedList(Comparator<Order> objectCompare){
+
         ArrayList<Order> orders = new ArrayList<Order>(Supermarket.map.values());
-        orders.sort(customerCompare);
+        orders.sort(objectCompare);
 
         return orders;
     }
@@ -157,13 +199,13 @@ public class Printer {
 
     public void printMap(){
         Printer printer = new Printer();
-        Map<String, ArrayList<String>> map = getMapSortedList(printer.getSortedList(), printer.getColumns());
+        Map<String, ArrayList<String>> map = getMapSortedList(printer.getSortedList(getObjectCompare(getColumnCompare(getColumns()))), printer.getColumns());
 
         for (Map.Entry<String, ArrayList<String>> mapSortedList : map.entrySet()){
             System.out.print(" | "+mapSortedList.getKey()+" | ");
         }
 
-        for (int i=0; i<getSortedList().size(); i++) {
+        for (int i=0; i<getSortedList(getObjectCompare(getColumnCompare(getColumns()))).size(); i++) {
             System.out.println();
             for (Map.Entry<String, ArrayList<String>> mapSortedList : map.entrySet()) {
 
