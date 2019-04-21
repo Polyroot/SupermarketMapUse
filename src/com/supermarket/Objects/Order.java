@@ -1,7 +1,6 @@
-package com.supermarket;
+package com.supermarket.Objects;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Order {
 

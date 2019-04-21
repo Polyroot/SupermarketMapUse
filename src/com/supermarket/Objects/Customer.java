@@ -1,4 +1,4 @@
-package com.supermarket;
+package com.supermarket.Objects;
 
 public class Customer {
 
@@ -17,6 +17,7 @@ public class Customer {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
 
     @Override
     public String toString() {

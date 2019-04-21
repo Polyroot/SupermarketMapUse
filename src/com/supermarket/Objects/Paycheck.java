@@ -1,4 +1,4 @@
-package com.supermarket;
+package com.supermarket.Objects;
 
 public class Paycheck {
     private String paycheckNumber;
