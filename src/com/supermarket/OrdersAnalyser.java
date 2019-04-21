@@ -22,6 +22,8 @@ public class OrdersAnalyser {
 
         printer.printMapSortedOrdersList();
 
+//        printer.getFixMapSortedOrdersList();
+
     }
 
     private HashMap<Paycheck, Order> map = new HashMap<>();
@@ -145,11 +147,9 @@ public class OrdersAnalyser {
     public void setColumnForCompare(Scanner in) {
 
         String scan = in.nextLine();
-
-        System.out.println(scan);
         int s = Integer.parseInt(scan);
-
         this.columnForCompare = getTableColumnsForCompare().get(s);
+        System.out.println("Вы выбрали "+columnForCompare);
     }
 
     //---------------
@@ -192,9 +192,9 @@ public class OrdersAnalyser {
 
 //---------------
 
-    private Map<String, ArrayList<String>> mapSortedOrdersList = new LinkedHashMap<>();
+    private Map<String, LinkedList<String>> mapSortedOrdersList = new LinkedHashMap<>();
 
-    public Map<String, ArrayList<String>> getMapSortedOrdersList() {
+    public Map<String, LinkedList<String>> getMapSortedOrdersList() {
         return mapSortedOrdersList;
     }
 
@@ -202,7 +202,7 @@ public class OrdersAnalyser {
         for (String s : columns){
 
             if (s.equals("paycheckNumber")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     Set<Map.Entry<Paycheck,Order>> entrySet = getMap().entrySet(); //поиск ключа по значению
                     for (Map.Entry<Paycheck,Order> pair : entrySet) {
@@ -214,61 +214,61 @@ public class OrdersAnalyser {
             }
 
             if (s.equals("customerName")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getCustomer().getCustomerName());
                 }
             }
             if (s.equals("phoneNumber")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getCustomer().getPhoneNumber());
                 }
             }
             if (s.equals("name")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getName());
                 }
             }
             if (s.equals("product")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getProduct().getProduct());
                 }
             }
             if (s.equals("amount")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(Integer.toString(value.getProduct().getAmount()));
                 }
             }
             if (s.equals("coast")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(Integer.toString(value.getProduct().getCoast()));
                 }
             }
             if (s.equals("locate")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getLocation().getLocate());
                 }
             }
             if (s.equals("coordinate")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getLocation().getCoordinate());
                 }
             }
             if (s.equals("locateDesc")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getLocation().getLocateDesc());
                 }
             }
             if (s.equals("date")){
-                mapSortedOrdersList.put(s, new ArrayList<>());
+                mapSortedOrdersList.put(s, new LinkedList<>());
                 for (Order value : sortedOrdersList){
                     mapSortedOrdersList.get(s).add(value.getData().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
                 }
@@ -276,22 +276,60 @@ public class OrdersAnalyser {
         }
     }
 
+    public Map<String, LinkedList<String>> getFixMapSortedOrdersList(){
+
+        Map<String, LinkedList<String>> fixMapSortedOrdersList = new LinkedHashMap<>();
+
+        for (Map.Entry<String, LinkedList<String>> mapSortedList : getMapSortedOrdersList().entrySet()){
+            LinkedList<String> list = new LinkedList<>();
+            int sizeColumn=1;
+            String key=mapSortedList.getKey();
+            if (sizeColumn<=key.length()){
+                sizeColumn=key.length();
+            }
+
+            for (String s : mapSortedList.getValue()){
+                if (sizeColumn<=s.length()){
+                    sizeColumn = s.length();
+                }
+            }
+
+            while (sizeColumn!=key.length()){
+                key=key+" ";
+            }
+
+            for (String s : mapSortedList.getValue()){
+                while (sizeColumn!=s.length()){
+                    s=s+" ";
+                }
+                list.add(s);
+            }
+            fixMapSortedOrdersList.put(key, list);
+        }
+        return fixMapSortedOrdersList;
+    }
+
+
 
     public void printMapSortedOrdersList(){
 
-        Map<String, ArrayList<String>> map = getMapSortedOrdersList();
+        Map<String, LinkedList<String>> map = getFixMapSortedOrdersList();
 
-        for (Map.Entry<String, ArrayList<String>> mapSortedList : map.entrySet()){
+        for (Map.Entry<String, LinkedList<String>> mapSortedList : map.entrySet()){
             System.out.print(" | "+mapSortedList.getKey()+" | ");
         }
 
         for (int i=0; i<getSortedOrdersList().size(); i++) {
             System.out.println();
-            for (Map.Entry<String, ArrayList<String>> mapSortedList : map.entrySet()) {
+            for (Map.Entry<String, LinkedList<String>> mapSortedList : map.entrySet()) {
 
                 System.out.print(" | " + mapSortedList.getValue().get(i) + " | ");
 
             }
         }
     }
+
+
+
+
 }
